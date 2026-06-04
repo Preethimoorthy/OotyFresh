@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delivery Orders - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='delivery.css') }}">
+
+    <style>
+        .status-btn {
+            background: #2e7d32;
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 10px;
+        }
+
+        .status-btn:hover {
+            background: #1b5e20;
+        }
+
+        .delivered {
+            color: green;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        table th,
+        table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        table th {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <h2>🚚 Ooty Fresh</h2>
+
+        <a href="/delivery_home">📊 Dashboard</a>
+        <a href="/delivery_orders" class="active">📦 My Orders</a>
+        <a href="/delivery_profile">👤 Profile</a>
+
+        <a href="/login_user" class="logout">🚪 Logout</a>
+
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <h2>Delivery Orders</h2>
+        </div>
+
+        <!-- SECTION -->
+        <div class="section">
+
+            <h3>Assigned Orders</h3>
+
+            <table>
+
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Address</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for o in orders %}
+
+                <tr>
+
+                    <td>{{ o[0] }}</td> <!-- ORDER ID -->
+
+                    <td>{{ o[1] }}</td> <!-- CUSTOMER -->
+
+                    <td>{{ o[2] }}</td> <!-- PHONE -->
+
+                    <td>{{ o[3] }}</td> <!-- PRODUCT -->
+
+                    <td>{{ o[4] }}</td> <!-- QTY -->
+
+                    <td>{{ o[5] }}</td> <!-- ADDRESS -->
+
+                    <td>₹{{ o[6] }}</td> <!-- AMOUNT -->
+
+                    <td>{{ o[7] }}</td> <!-- STATUS -->
+
+                    <td>
+
+                        {% if o[7] != 'Delivered' %}
+
+                        <a href="/mark_delivered/{{ o[0] }}" class="status-btn">
+
+                            Mark Delivered
+
+                        </a>
+
+                        {% else %}
+
+                        <span class="delivered">
+                            Delivered ✅
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

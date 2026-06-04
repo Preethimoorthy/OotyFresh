@@ -1,0 +1,174 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7f6;
+}
+
+/* MAIN CONTAINER */
+.container {
+    max-width: 100%;
+    margin: auto;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2e7d32;
+    color: white;
+    padding: 35px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    margin: 12px;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* ADDRESS BOX */
+.address-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.address-box:hover {
+    border-color: #2e7d32;
+    background: #f1f8f4;
+}
+
+.address-box label {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.address-box input {
+    margin-top: 5px;
+}
+
+/* DELETE */
+.delete-btn {
+    color: red;
+    font-size: 13px;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+/* BUTTON */
+.add-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* PAYMENT */
+.card label {
+    display: block;
+    margin: 8px 0;
+}
+
+/* SUMMARY */
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+/* PLACE ORDER */
+.place-btn {
+    width: 90%;
+    margin: 20px auto;
+    display: block;
+    padding: 14px;
+    border: none;
+    background: #2e7d32;
+    color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* 🔥 TABLET VIEW */
+@media (min-width: 768px) {
+
+    .container {
+        max-width: 700px;
+    }
+
+    .card {
+        margin: 15px auto;
+    }
+
+    .place-btn {
+        width: 60%;
+    }
+}
+
+/* 🔥 LAPTOP VIEW */
+@media (min-width: 1024px) {
+
+    .container {
+        max-width: 1000px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+    }
+
+    /* LEFT SIDE */
+    .left {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* RIGHT SIDE (SUMMARY FIXED) */
+    .right {
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+    }
+
+    .place-btn {
+        width: 100%;
+    }
+}

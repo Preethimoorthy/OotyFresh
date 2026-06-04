@@ -1,0 +1,138 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7f6;
+    padding-bottom: 70px;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2e7d32;
+    color: white;
+    padding: 35px;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.location {
+    font-size: 12px;
+}
+
+/* CART */
+.cart-icon {
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: red;
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: 50%;
+}
+
+/* TITLE */
+.page-title {
+    padding: 15px;
+}
+
+/* GRID */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 15px;
+}
+
+/* CARD */
+.category-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon {
+    font-size: 30px;
+}
+
+.category-card h3 {
+    margin-top: 10px;
+}
+
+.category-card p {
+    font-size: 12px;
+    color: gray;
+}
+
+/* NAVBAR */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+/* NAV ITEMS */
+.nav-item {
+    text-decoration: none;
+    color: #777;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.nav-item .icon {
+    font-size: 18px;
+}
+
+.nav-item .text {
+    font-size: 11px;
+}
+
+/* ACTIVE ITEM */
+.nav-item.active {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+/* HOVER EFFECT (for laptop) */
+.nav-item:hover {
+    color: #2e7d32;
+}

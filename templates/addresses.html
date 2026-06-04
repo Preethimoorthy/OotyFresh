@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pick Address</title>
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        body { font-family: Arial; margin:0; background:#f5f5f5; }
+
+        .card {
+            padding:15px;
+            background:white;
+            border-radius:10px;
+            margin:10px;
+        }
+
+        #map {
+            height: 350px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        input {
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+        }
+
+        button {
+            padding:10px;
+            background:#2e7d32;
+            color:white;
+            border:none;
+            border-radius:8px;
+            margin-top:10px;
+            width:100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2 style="padding:10px;">📍 Add Address</h2>
+
+<form method="POST" action="/add_address">
+
+<div class="card">
+
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="text" name="phone" placeholder="Phone" required>
+
+    <!-- 🔍 SEARCH -->
+    <input id="searchBox" type="text" placeholder="Search location...">
+
+    <!-- 🗺 MAP -->
+    <div id="map"></div>
+
+    <!-- 📍 ADDRESS -->
+    <input type="text" name="full_address" id="address" placeholder="Selected address" required>
+
+    <!-- LAT LNG -->
+    <input type="hidden" name="lat" id="lat">
+    <input type="hidden" name="lng" id="lng">
+
+    <button>Add Address</button>
+
+</div>
+
+</form>
+
+<script>
+let map = L.map('map').setView([11.4102, 76.6950], 13); // Ooty
+
+// Map tiles
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+// Marker
+let marker = L.marker([11.4102, 76.6950], {draggable:true}).addTo(map);
+
+// 🔥 Reverse Geocode (lat,lng → address)
+function getAddress(lat, lon) {
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("address").value = data.display_name;
+        document.getElementById("lat").value = lat;
+        document.getElementById("lng").value = lon;
+    });
+}
+
+// On marker drag
+marker.on('dragend', function(e) {
+    let pos = marker.getLatLng();
+    getAddress(pos.lat, pos.lng);
+});
+
+// 🔍 Search (Swiggy-style)
+document.getElementById("searchBox").addEventListener("change", function() {
+    let query = this.value;
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data.length > 0){
+            let lat = data[0].lat;
+            let lon = data[0].lon;
+
+            map.setView([lat, lon], 15);
+            marker.setLatLng([lat, lon]);
+
+            getAddress(lat, lon);
+        }
+    });
+});
+
+// Load default address
+getAddress(11.4102, 76.6950);
+
+</script>
+
+</body>
+</html>

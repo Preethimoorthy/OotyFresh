@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7f6;
+    padding-bottom: 70px;
+}
+
+/* HEADER */
+.header {
+    background: #2e7d32;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+/* PROFILE CARD */
+.profile-card {
+    background: white;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.avatar {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.email {
+    color: gray;
+    font-size: 13px;
+}
+
+/* MENU */
+.menu {
+    margin: 15px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.menu-item:hover {
+    background: #f1f1f1;
+}
+
+.logout {
+    color: red;
+}
+
+/* APP INFO */
+.app-info {
+    text-align: center;
+    margin-top: 20px;
+    color: gray;
+}
+
+/* NAVBAR */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+/* NAV ITEMS */
+.nav-item {
+    text-decoration: none;
+    color: #777;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.nav-item .icon {
+    font-size: 18px;
+}
+
+.nav-item .text {
+    font-size: 11px;
+}
+
+/* ACTIVE ITEM */
+.nav-item.active {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+/* HOVER EFFECT (for laptop) */
+.nav-item:hover {
+    color: #2e7d32;
+}

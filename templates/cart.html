@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div>
+        <h2>🛒 Your Cart</h2>
+        <p class="sub">Fresh from Ooty</p>
+    </div>
+    <a href="/categories" class="back-btn">⬅</a>
+</header>
+
+<!-- CART ITEMS -->
+<div class="cart-container">
+<!-- CART ITEMS -->
+<div class="cart-container">
+
+{% if products %}
+    {% for p in products %}
+    <div class="cart-card">
+
+        <img src="{{ p.image if p.image else 'https://via.placeholder.com/100' }}">
+
+        <div class="details">
+            <h4>{{ p.name }}</h4>
+            <p class="price">₹{{ p.price }}</p>
+
+            <!-- QUANTITY CONTROL -->
+            <div class="qty-box">
+                <a href="/decrease/{{ p.id }}">
+                    <button>-</button>
+                </a>
+
+                <span>{{ p.qty }}</span>
+
+                <a href="/increase/{{ p.id }}">
+                    <button>+</button>
+                </a>
+            </div>
+
+            <!-- SUBTOTAL -->
+            <p class="subtotal">Subtotal: ₹{{ p.subtotal }}</p>
+        </div>
+
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="empty">Your cart is empty 🥲</p>
+{% endif %}
+
+</div>
+
+<!-- TOTAL + ORDER -->
+<div class="checkout">
+    <div class="total">
+        <h3>Total</h3>
+        <h2>₹{{ total }}</h2>
+    </div>
+
+    <a href="/checkout">
+        <button class="order-btn">Proceed to Checkout</button>
+    </a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delivery Dashboard - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='delivery.css') }}">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>🚚 Ooty Fresh</h2>
+
+    <a href="/delivery_home" class="active">📊 Dashboard</a>
+    <a href="/delivery_orders">📦 My Orders</a>
+    <a href="/delivery_profile">👤 Profile</a>
+
+    <a href="/logout" class="logout">🚪 Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <h2>Delivery Dashboard</h2>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>{{ total_orders }}</h3>
+            <p>Total Assigned Orders</p>
+        </div>
+
+        <div class="card">
+            <h3>{{ pending_orders }}</h3>
+            <p>Pending Deliveries</p>
+        </div>
+
+        <div class="card">
+            <h3>{{ delivered_orders }}</h3>
+            <p>Completed Deliveries</p>
+        </div>
+
+    </div>
+
+    <!-- ORDER LIST -->
+    <div class="section">
+        <h3>Assigned Orders</h3>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Customer</th>
+                <th>Address</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            {% for order in orders %}
+            <tr>
+                <td>{{ order[0] }}</td>
+                <td>{{ order[1] }}</td>
+                <td>{{ order[2] }}</td>
+                <td>₹{{ order[6] }}</td>
+                <td>
+                    {% if order[4] == 'Delivered' %}
+                        <span style="color:green;">Delivered</span>
+                    {% else %}
+                        <span style="color:orange;">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if order[4] != 'Delivered' %}
+                    <a href="/mark_delivered/{{ order[0] }}" class="deliver-btn">
+                        Mark Delivered
+                    </a>
+                    {% else %}
+                        ✔
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

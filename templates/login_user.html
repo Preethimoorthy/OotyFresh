@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='login_user.css') }}">
+
+    <style>
+        .role-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .role-tabs button {
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+            background: #eee;
+        }
+
+        .role-tabs button.active {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .form-box {
+            display: none;
+        }
+
+        .form-box.active {
+            display: block;
+        }
+
+        .signup {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .signup a {
+            color: #2e7d32;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <h2>🌿 Ooty Fresh</h2>
+    </header>
+
+    <!-- LOGIN BOX -->
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <h2>👋 Welcome Back</h2>
+            <p>Select Login Type</p>
+
+            <!-- ROLE SWITCH -->
+            <div class="role-tabs">
+                <button class="active" type="button" onclick="showForm('user')">User</button>
+                <button type="button" onclick="showForm('admin')">Admin</button>
+                <button type="button" onclick="showForm('delivery')">Delivery</button>
+            </div>
+
+            <!-- USER LOGIN -->
+            <div id="userForm" class="form-box active">
+                {% if message %}
+                <div class="error-message">
+                    {{ message }}
+                </div>
+                {% endif %}
+                <form method="POST" action="/login_user">
+                    <input type="email" name="email" placeholder="📧 User Email" required>
+                    <input type="password" name="password" placeholder="🔒 Password" required>
+                    <button type="submit">User Login</button>
+                </form>
+
+                <div class="signup">
+                    Don’t have an account? <a href="/signup">Create Account</a>
+                </div>
+            </div>
+
+            <!-- ADMIN LOGIN -->
+            <div id="adminForm" class="form-box">
+                {% if message %}
+                <div class="error-message">
+                    {{ message }}
+                </div>
+                {% endif %}
+                <form method="POST" action="/login">
+                    <input type="text" name="username" placeholder="👨‍💼 Admin Username" required>
+                    <input type="password" name="password" placeholder="🔒 Password" required>
+                    <button type="submit">Admin Login</button>
+                </form>
+            </div>
+
+            <!-- DELIVERY LOGIN -->
+            <div id="deliveryForm" class="form-box">
+                {% if message %}
+                <div class="error-message">
+                    {{ message }}
+                </div>
+                {% endif %}
+                <form method="POST" action="/delivery/login">
+                    <input type="text" name="phone" placeholder="📱 Phone Number" required>
+                    <input type="password" name="password" placeholder="🔒 Password" required>
+                    <button type="submit">Delivery Login</button>
+                </form>
+
+                <div class="signup">
+                    Don’t have an account? <a href="/delivery_signup">Create Account</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="bottom-nav">
+        <a href="/home" class="nav-item {% if active=='home' %}active{% endif %}">
+            <span class="icon">🏠</span>
+            <span class="text">Home</span>
+        </a>
+
+        <a href="/categories" class="nav-item {% if active=='categories' %}active{% endif %}">
+            <span class="icon">📂</span>
+            <span class="text">Categories</span>
+        </a>
+
+        <a href="/search" class="nav-item {% if active=='search' %}active{% endif %}">
+            <span class="icon">🔍</span>
+            <span class="text">Search</span>
+        </a>
+
+        <a href="/orders" class="nav-item {% if active=='orders' %}active{% endif %}">
+            <span class="icon">📦</span>
+            <span class="text">Orders</span>
+        </a>
+
+        <a href="/profile" class="nav-item {% if active=='profile' %}active{% endif %}">
+            <span class="icon">👤</span>
+            <span class="text">Profile</span>
+        </a>
+    </nav>
+
+    <!-- SCRIPT -->
+    <script>
+        function showForm(type) {
+
+            document.querySelectorAll(".form-box").forEach(f => f.classList.remove("active"));
+            document.querySelectorAll(".role-tabs button").forEach(b => b.classList.remove("active"));
+
+            if (type === "user") {
+                document.getElementById("userForm").classList.add("active");
+                document.querySelectorAll(".role-tabs button")[0].classList.add("active");
+            }
+            else if (type === "admin") {
+                document.getElementById("adminForm").classList.add("active");
+                document.querySelectorAll(".role-tabs button")[1].classList.add("active");
+            }
+            else if (type === "delivery") {
+                document.getElementById("deliveryForm").classList.add("active");
+                document.querySelectorAll(".role-tabs button")[2].classList.add("active");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

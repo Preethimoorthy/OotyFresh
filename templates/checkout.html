@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='checkout.css') }}">
+
+    <!-- LEAFLET -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+
+        #map{
+            height:300px;
+            border-radius:10px;
+            margin-top:10px;
+        }
+
+        .map-box{
+            margin-top:15px;
+        }
+
+        .map-box input{
+            width:100%;
+            padding:12px;
+            border:1px solid #ccc;
+            border-radius:8px;
+            margin-top:10px;
+            box-sizing:border-box;
+        }
+
+        .save-btn{
+            width:100%;
+            padding:12px;
+            border:none;
+            background:#2e7d32;
+            color:white;
+            border-radius:8px;
+            margin-top:10px;
+            cursor:pointer;
+        }
+
+        .save-btn:hover{
+            background:#1b5e20;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header class="header">
+    <h2>Order Summary</h2>
+</header>
+
+<form method="POST" action="/place_order">
+
+    <!-- ADDRESS -->
+    <div class="card">
+
+        <h3>📍 Select Address</h3>
+
+        {% if addresses %}
+
+            {% for a in addresses %}
+
+            <div class="address-box">
+
+                <label>
+
+                    <input type="radio"
+                           name="address_id"
+                           value="{{ a[0] }}"
+                           required>
+
+                    <div>
+
+                        <strong>{{ a[2] }}</strong>
+                        ({{ a[3] }})
+                        <br>
+
+                        {{ a[4] }}
+
+                    </div>
+
+                </label>
+
+                <a href="/delete_address/{{ a[0] }}"
+                   onclick="return confirm('Delete this address?')"
+                   class="delete-btn">
+
+                    🗑
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-address">
+                <p>No saved addresses found</p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="card">
+
+        <h3>💳 Payment Method</h3>
+
+        <label>
+            <input type="radio"
+                   name="payment"
+                   value="Cash on Delivery"
+                   checked>
+
+            Cash on Delivery
+        </label>
+
+        <label>
+            <input type="radio"
+                   name="payment"
+                   value="UPI">
+
+            UPI
+        </label>
+
+        <label>
+            <input type="radio"
+                   name="payment"
+                   value="Card">
+
+            Card
+        </label>
+
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="card">
+
+        <h3>🧾 Order Summary</h3>
+
+        {% for p in products %}
+
+        <div class="summary-item">
+
+            <span>
+                {{ p.name }} (x{{ p.qty }})
+            </span>
+
+            <span>
+                ₹{{ p.subtotal }}
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+        <hr>
+
+        <div class="total">
+
+            <strong>Total</strong>
+
+            <strong>₹{{ total }}</strong>
+
+        </div>
+
+    </div>
+
+    <!-- PLACE ORDER -->
+    <button class="place-btn">
+        Place Order
+    </button>
+
+</form>
+
+<!-- ADD ADDRESS -->
+<div class="card map-box">
+
+    <h3>➕ Add New Address</h3>
+
+    <form method="POST" action="/add_address">
+
+        <input type="text"
+               name="name"
+               placeholder="Full Name"
+               required>
+
+        <input type="text"
+               name="phone"
+               placeholder="Phone Number"
+               required>
+
+        <!-- SEARCH -->
+        <input type="text"
+               id="searchBox"
+               placeholder="Search location">
+
+        <!-- MAP -->
+        <div id="map"></div>
+
+        <!-- ADDRESS -->
+        <input type="text"
+               name="full_address"
+               id="address"
+               placeholder="Selected Address"
+               required>
+
+        <!-- LAT LNG -->
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lng" id="lng">
+
+        <button type="submit" class="save-btn">
+            Save Address
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+
+let map = L.map('map').setView([11.4102, 76.6950], 13);
+
+// TILE
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+    attribution:'© OpenStreetMap'
+}).addTo(map);
+
+// MARKER
+let marker = L.marker(
+    [11.4102, 76.6950],
+    { draggable:true }
+).addTo(map);
+
+// GET ADDRESS
+function getAddress(lat, lon){
+
+    fetch(
+    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        document.getElementById("address").value =
+            data.display_name;
+
+        document.getElementById("lat").value = lat;
+
+        document.getElementById("lng").value = lon;
+
+    });
+
+}
+
+// DRAG
+marker.on('dragend', function(){
+
+    let pos = marker.getLatLng();
+
+    getAddress(pos.lat, pos.lng);
+
+});
+
+// SEARCH
+document.getElementById("searchBox")
+.addEventListener("change", function(){
+
+    let query = this.value;
+
+    fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${query}`
+    )
+
+    .then(res => res.json())
+
+    .then(data => {
+
+        if(data.length > 0){
+
+            let lat = data[0].lat;
+            let lon = data[0].lon;
+
+            map.setView([lat, lon], 15);
+
+            marker.setLatLng([lat, lon]);
+
+            getAddress(lat, lon);
+
+        }
+
+    });
+
+});
+
+// DEFAULT
+getAddress(11.4102, 76.6950);
+
+</script>
+
+</body>
+
+</html>

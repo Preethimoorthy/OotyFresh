@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>🌿 Ooty Fresh</h2>
+
+    <a href="/admin">📊 Dashboard</a>
+    <!-- <a href="/admin_orders">📦 Orders</a> -->
+    <a href="/admin_products">🛒 Products</a>
+    <a href="/admin_customers" class="active">👥 Customers</a>
+
+    <a href="/logout" class="logout">🚪 Logout</a>
+</div>
+
+<div class="main">
+
+    <div class="topbar">
+        <h2>Customers</h2>
+    </div>
+
+    <div class="section">
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+
+            {% for c in customers %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ c[1] }}</td>
+                <td>{{ c[2] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

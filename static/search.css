@@ -1,0 +1,60 @@
+.search-box {
+    padding: 10px;
+    background: white;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Category chips */
+.cat-chip {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 20px;
+    background: #eee;
+    cursor: pointer;
+}
+
+.cat-chip.active {
+    background: #2e7d32;
+    color: white;
+}
+
+/* Results */
+.product-grid {
+    padding: 10px;
+}
+
+.product-card {
+    background: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.product-card img {
+    width: 70px;
+    border-radius: 10px;
+}
+
+.product-info {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.add-btn {
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+}

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delivery Dashboard - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f5;
+        }
+
+        /* HEADER */
+        .header {
+            background: #2e7d32;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        /* PROFILE */
+        .profile {
+            background: white;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+        }
+
+        .profile-info p {
+            margin: 3px 0;
+            color: gray;
+        }
+
+        /* STATS */
+        .stats {
+            display: flex;
+            gap: 10px;
+            margin: 15px;
+        }
+
+        .card {
+            flex: 1;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin: 0;
+            color: #2e7d32;
+        }
+
+        /* ORDERS */
+        .orders {
+            margin: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #e8f5e9;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn:disabled {
+            background: gray;
+            cursor: not-allowed;
+        }
+
+        /* FOOTER NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: gray;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2>🚚 Delivery Dashboard</h2>
+        <div>Ooty Fresh</div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="profile">
+        <div class="profile-info">
+            <h3>{{ delivery_name }}</h3>
+            <p>ID: {{ delivery_id }}</p>
+            <p>Area: {{ delivery_area }}</p>
+        </div>
+        <div>
+            <button class="btn">Online</button>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="card">
+            <h3>{{ total_orders }}</h3>
+            <p>Total Orders</p>
+        </div>
+
+        <div class="card">
+            <h3>{{ pending_orders }}</h3>
+            <p>Pending</p>
+        </div>
+
+        <div class="card">
+            <h3>{{ delivered_orders }}</h3>
+            <p>Delivered</p>
+        </div>
+    </div>
+
+    <!-- ORDERS TABLE -->
+    <div class="orders">
+        <h3>Assigned Orders</h3>
+
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            {% for o in orders %}
+            <tr>
+                <td>#{{ o[0] }}</td>
+                <td>{{ o[1] }}</td>
+                <td>{{ o[2] }}</td>
+                <td>{{ o[3] }}</td>
+
+                <td>
+                    {% if o[4] == 'pending' %}
+                    <span class="status pending">Pending</span>
+                    {% else %}
+                    <span class="status delivered">Delivered</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if o[4] == 'pending' %}
+                    <a href="/mark_delivered/{{ o[0] }}">
+                        <button class="btn">Mark Delivered</button>
+                    </a>
+                    {% else %}
+                    <button class="btn" disabled>Done</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+        <a href="/delivery/home" class="nav-item active">🏠 Home</a>
+        <a href="/delivery/orders" class="nav-item">📦 Orders</a>
+        <a href="/delivery/profile" class="nav-item">👤 Profile</a>
+    </nav>
+
+</body>
+
+</html>

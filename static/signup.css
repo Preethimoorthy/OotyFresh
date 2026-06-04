@@ -1,0 +1,155 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7f6;
+    margin: 0;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2e7d32;
+    color: white;
+    padding: 15px;
+}
+
+/* CONTAINER */
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 130px); /* 🔥 FIX */
+    padding: 15px;
+}
+
+/* CARD */
+.signup-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* TITLE */
+.signup-card h2 {
+    color: #2e7d32;
+    margin-bottom: 8px;
+}
+
+.signup-card p {
+    font-size: 13px;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+/* INPUT */
+.signup-card input {
+    width: 95%;
+    padding: 12px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+}
+
+/* INPUT FOCUS */
+.signup-card input:focus {
+    border-color: #2e7d32;
+}
+
+/* BUTTON */
+.signup-card button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #2e7d32;
+    color: white;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.signup-card button:hover {
+    background: #256628;
+}
+
+/* LOGIN LINK */
+.login-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* NAVBAR */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 1000; /* 🔥 FIX */
+}
+
+/* NAV ITEMS */
+.nav-item {
+    text-decoration: none;
+    color: #777;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.nav-item .icon {
+    font-size: 18px;
+}
+
+.nav-item .text {
+    font-size: 11px;
+}
+
+/* ACTIVE ITEM */
+.nav-item.active {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+/* HOVER EFFECT (laptop) */
+.nav-item:hover {
+    color: #2e7d32;
+}
+
+/* LAPTOP VIEW */
+/* @media(min-width:768px) {
+
+    body {
+        max-width: 600px;
+        margin: auto;
+        background: #eaeaea;
+    }
+
+    .signup-container {
+        min-height: calc(100vh - 140px);
+    }
+
+    .signup-card {
+        max-width: 420px;
+    }
+} */

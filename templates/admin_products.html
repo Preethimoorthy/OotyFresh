@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Products - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>🌿 Ooty Fresh</h2>
+
+        <a href="/admin">📊 Dashboard</a>
+        <!-- <a href="/admin_orders">📦 Orders</a> -->
+        <a href="/admin_products" class="active">🛒 Products</a>
+        <a href="/admin_customers">👥 Customers</a>
+
+        <a href="/logout" class="logout">🚪 Logout</a>
+    </div>
+
+    <div class="main">
+
+        <div class="topbar">
+            <h2>Products</h2>
+        </div>
+
+        <!-- ADD PRODUCT -->
+        <div class="section">
+            <h3>Add Product</h3>
+
+            <form action="/add_product" method="POST" enctype="multipart/form-data" class="form">
+                <input name="name" placeholder="Product Name" required>
+                <input name="price" placeholder="Price" required>
+                <input name="category" placeholder="Category" required>
+
+                <!-- ✅ FILE UPLOAD -->
+                <input type="file" name="image" accept="image/*" required>
+
+                <button>Add Product</button>
+            </form>
+        </div>
+
+        <!-- LIST -->
+        <div class="section">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th> <!-- ✅ NEW -->
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for p in products %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+
+                    <!-- ✅ IMAGE DISPLAY -->
+                    <td>
+                        <img src="{{ p[3] if p[3] else 'https://via.placeholder.com/60' }}" class="product-img">
+                    </td>
+
+                    <td>{{ p[1] }}</td>
+                    <td>₹{{ p[2] }}</td>
+                    <td>
+                        <a href="/delete/{{ p[0] }}" class="delete-btn">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Orders - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2>🌿 Ooty Fresh</h2>
+
+        <a href="/admin">📊 Dashboard</a>
+        <a href="/admin_orders" class="active">📦 Orders</a>
+        <a href="/admin_products">🛒 Products</a>
+        <a href="/admin_customers">👥 Customers</a>
+
+        <a href="/logout" class="logout">🚪 Logout</a>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <h2>Orders</h2>
+        </div>
+
+        <div class="section">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for o in orders %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ o[1] }}</td> <!-- ✅ customer name -->
+                    <td>₹{{ o[2] }}</td>
+                    <td>
+                        <span class="status {{ o[3] }}">{{ o[3] }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='delivery.css') }}">
+
+    <style>
+        .edit-btn {
+            background: #2e7d32;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .edit-btn:hover {
+            background: #1b5e20;
+        }
+
+        .form-box {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .form-box button {
+            background: #2e7d32;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>🚚 Ooty Fresh</h2>
+
+    <a href="/delivery_home">📊 Dashboard</a>
+    <a href="/delivery_orders">📦 My Orders</a>
+    <a href="/delivery_profile" class="active">👤 Profile</a>
+
+    <a href="/login_user" class="logout">🚪 Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <div class="topbar">
+        <h2>My Profile</h2>
+    </div>
+
+    <div class="section">
+
+        <h3>Delivery Partner Details</h3>
+
+        <!-- VIEW MODE -->
+        <div id="viewBox">
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Details</th>
+                </tr>
+
+                <tr>
+                    <td>Name</td>
+                    <td>{{ user[1] }}</td>
+                </tr>
+
+                <tr>
+                    <td>Phone</td>
+                    <td>{{ user[2] }}</td>
+                </tr>
+
+                <tr>
+                    <td>Area</td>
+                    <td>{{ user[3] }}</td>
+                </tr>
+
+                <tr>
+                    <td>Role</td>
+                    <td>{{ user[5] }}</td>
+                </tr>
+            </table>
+
+            <button class="edit-btn" onclick="showEdit()">Edit Profile</button>
+        </div>
+
+        <!-- EDIT MODE -->
+        <div class="form-box" id="editBox">
+
+            <form method="POST">
+
+                <input type="text" name="name" value="{{ user[1] }}" required placeholder="Name">
+                <input type="text" name="phone" value="{{ user[2] }}" required placeholder="Phone">
+                <input type="text" name="area" value="{{ user[3] }}" required placeholder="Role">
+
+                <button type="submit">Update Profile</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function showEdit() {
+    document.getElementById("viewBox").style.display = "none";
+    document.getElementById("editBox").style.display = "block";
+}
+</script>
+
+</body>
+</html>

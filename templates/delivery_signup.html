@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delivery Partner Signup - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup.css') }}">
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f4f6f5;
+        }
+
+        /* HEADER */
+        .header {
+            background: #2e7d32;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        /* FORM CONTAINER */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 320px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            text-align: center;
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #256428;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .login a {
+            color: #2e7d32;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2>🚚 Ooty Fresh Delivery</h2>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div class="signup-container">
+        <div class="signup-card">
+
+            <h2>Delivery Signup</h2>
+            <p>Join as a delivery partner</p>
+
+            <form method="POST" action="/delivery_signup">
+
+                <input type="text" name="name" placeholder="👤 Full Name" required>
+
+                <input type="text" name="phone" placeholder="📱 Phone Number" required>
+
+                <input type="text" name="area" placeholder="📍 Delivery Area (e.g. Ooty)" required>
+
+                <input type="password" name="password" placeholder="🔒 Password" required>
+
+                <button type="submit">Create Account</button>
+
+            </form>
+
+            <div class="login-link">
+                Already have account? <a href="/login_user">Login</a>
+            </div>
+
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="/home" class="nav-item {% if active=='home' %}active{% endif %}">
+            <span class="icon">🏠</span>
+            <span class="text">Home</span>
+        </a>
+
+        <a href="/categories" class="nav-item {% if active=='categories' %}active{% endif %}">
+            <span class="icon">📂</span>
+            <span class="text">Categories</span>
+        </a>
+
+        <a href="/search" class="nav-item {% if active=='search' %}active{% endif %}">
+            <span class="icon">🔍</span>
+            <span class="text">Search</span>
+        </a>
+
+        <a href="/orders" class="nav-item {% if active=='orders' %}active{% endif %}">
+            <span class="icon">📦</span>
+            <span class="text">Orders</span>
+        </a>
+
+        <a href="/profile" class="nav-item {% if active=='profile' %}active{% endif %}">
+            <span class="icon">👤</span>
+            <span class="text">Profile</span>
+        </a>
+    </nav>
+
+</body>
+
+</html>

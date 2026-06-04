@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ category }} - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">🌿 Ooty Fresh</div>
+        </div>
+
+        <div class="header-right">
+            <a href="/cart" class="cart-icon">
+                🛒
+                <span class="cart-count">{{ cart_count }}</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- TITLE -->
+    <h2 class="section-title">{{ category }}</h2>
+
+    <!-- PRODUCTS -->
+    <div class="product-grid">
+        {% if products %}
+        {% for p in products %}
+        <div class="product-card">
+            <img src="{{ p[3] if p[3] else 'https://via.placeholder.com/150' }}">
+            <h4>{{ p[1] }}</h4>
+            <p class="price">₹{{ p[2] }}</p>
+
+            <a href="/add_to_cart/{{ p[0] }}?category={{ category }}">
+                <button>Add +</button>
+            </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p style="padding:20px;">No products found in this category</p>
+        {% endif %}
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="bottom-nav">
+        <a href="/home" class="nav-item {% if active=='home' %}active{% endif %}">
+            <span class="icon">🏠</span>
+            <span class="text">Home</span>
+        </a>
+
+        <a href="/categories" class="nav-item {% if active=='categories' %}active{% endif %}">
+            <span class="icon">📂</span>
+            <span class="text">Categories</span>
+        </a>
+
+        <a href="/search" class="nav-item {% if active=='search' %}active{% endif %}">
+            <span class="icon">🔍</span>
+            <span class="text">Search</span>
+        </a>
+
+        <a href="/orders" class="nav-item {% if active=='orders' %}active{% endif %}">
+            <span class="icon">📦</span>
+            <span class="text">Orders</span>
+        </a>
+
+        <a href="/profile" class="nav-item {% if active=='profile' %}active{% endif %}">
+            <span class="icon">👤</span>
+            <span class="text">Profile</span>
+        </a>
+    </nav>
+
+</body>
+
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders - Ooty Fresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='orders.css') }}">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div>
+            <h2>📦 My Orders</h2>
+        </div>
+
+        <a href="/home" class="back-btn">⬅ Back</a>
+    </header>
+
+    <!-- ORDERS -->
+    <div class="orders-container">
+
+        {% if order_data %}
+
+        {% for data in order_data %}
+
+        <a href="/order/{{ data.order[0] }}" class="order-link">
+
+            <div class="order-card">
+
+                <!-- ORDER TOP -->
+                <div class="order-top">
+
+                    <!-- PRODUCT NAME (FIRST PRODUCT ONLY + MORE COUNT) -->
+                    <h3>
+                        {% if data.order_items %}
+                        Order - {{ data.order_items[0][3] }}
+                        {% if data.order_items|length > 1 %}
+                        +{{ data.order_items|length - 1 }} more
+                        {% endif %}
+                        {% else %}
+                        Order
+                        {% endif %}
+                    </h3>
+
+                    <!-- STATUS -->
+                    <span class="status 
+                        {% if data.order[4] == 'Cancelled' %}cancelled
+                        {% elif data.order[4] == 'Delivered' %}delivered
+                        {% else %}processing{% endif %}">
+                        {{ data.order[4] }}
+                    </span>
+
+                </div>
+
+                <!-- TOTAL -->
+                <div class="order-body">
+                    <p><strong>Total:</strong> ₹{{ data.total_amount }}</p>
+                </div>
+
+                <!-- PRODUCTS PREVIEW (ONLY FIRST PRODUCT) -->
+                <div class="preview">
+
+                    {% if data.order_items and data.order_items|length > 0 %}
+
+                    {% set item = data.order_items[0] %}
+
+                    <div class="preview-item">
+
+                        <img src="{{ item[6] if item[6] else 'https://via.placeholder.com/50' }}">
+
+                        <div>
+                            <p class="pname">{{ item[3] }}</p>
+                            <small>₹{{ item[4] }} × {{ item[5] }}</small>
+                        </div>
+                        <div class="delete-box">
+                        <button class="delete-btn" onclick="deleteOrder(event, '{{ data.order[0] }}')">
+                            🗑 Delete
+                        </button>
+                    </div>
+
+                    </div>
+
+                    {% else %}
+
+                    <p class="no-items">No items found</p>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- CANCEL BUTTON -->
+                {% if data.order[4] != 'Cancelled' and data.order[4] != 'Delivered' %}
+                <div class="cancel-box" id="cancel-box-{{ data.order[0] }}">
+                    <button class="cancel-btn" onclick="cancelOrder(event, '{{ data.order[0] }}')">
+                        Cancel Order
+                    </button>
+                </div>
+
+                {% else %}
+                <div class="status-msg">
+
+                    {% if data.order[4] == 'Cancelled' %}
+                    <span class="cancel-text">❌ Order Cancelled</span>
+                    {% elif data.order[4] == 'Delivered' %}
+                    <span class="delivered-text">✅ Order Delivered</span>
+                    {% endif %}
+
+
+                </div>
+                {% endif %}
+
+            </div>
+
+        </a>
+
+        {% endfor %}
+
+        {% else %}
+
+        <!-- EMPTY STATE -->
+        <div class="empty-box">
+            <p>🛒 No orders found</p>
+
+            <a href="/home">
+                <button class="shop-btn">Start Shopping</button>
+            </a>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+
+        <a href="/home" class="nav-item {% if active=='home' %}active{% endif %}">
+            <span class="icon">🏠</span>
+            <span class="text">Home</span>
+        </a>
+
+        <a href="/categories" class="nav-item {% if active=='categories' %}active{% endif %}">
+            <span class="icon">📂</span>
+            <span class="text">Categories</span>
+        </a>
+
+        <a href="/search" class="nav-item {% if active=='search' %}active{% endif %}">
+            <span class="icon">🔍</span>
+            <span class="text">Search</span>
+        </a>
+
+        <a href="/orders" class="nav-item active">
+            <span class="icon">📦</span>
+            <span class="text">Orders</span>
+        </a>
+
+        <a href="/profile" class="nav-item {% if active=='profile' %}active{% endif %}">
+            <span class="icon">👤</span>
+            <span class="text">Profile</span>
+        </a>
+
+    </nav>
+
+    <script>
+        function cancelOrder(event, orderId) {
+            event.stopPropagation();
+
+            if (confirm("Are you sure you want to cancel this order?")) {
+
+                // 🔴 Update UI instantly
+                let box = document.getElementById("cancel-box-" + orderId);
+
+                box.innerHTML = `
+            <div class="status-msg">
+                <span class="cancel-text">❌ Order Cancelled</span>
+            </div>
+        `;
+
+                // 🟡 Call backend (optional but recommended)
+                fetch("/cancel_order/" + orderId)
+                    .then(res => res.json())
+                    .then(data => console.log("Cancelled:", data))
+                    .catch(err => console.error(err));
+            }
+        }
+
+        function deleteOrder(event, orderId) {
+            event.stopPropagation();
+
+            if (confirm("Are you sure you want to delete this order?")) {
+
+                // 🔴 Remove card from UI instantly
+                let card = event.target.closest(".order-link");
+                card.remove();
+
+                // 🟡 Call backend
+                fetch("/delete_order/" + orderId)
+                    .then(res => res.json())
+                    .then(data => console.log("Deleted:", data))
+                    .catch(err => console.error(err));
+            }
+        }
+    </script>
+
+</body>
+
+</html>
